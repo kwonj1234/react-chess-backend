@@ -15,6 +15,14 @@ def schema(dbpath = DBPATH):
         for table in ["user", "match", "moves"]:
             c.execute(f"""DROP TABLE IF EXISTS {table}""")
 
+        # Create user table. Users will have a unique id(pk), username, 
+        # hash
+        sql = """CREATE TABLE user (
+            pk INTEGER PRIMARY KEY AUTOINCREMENT,
+            username VARCHAR(21)
+            hash VARCHAR(256)
+        );"""
+
         # Create match table. Every match has a unique id (pk) and the pk 
         # for the user playing the white pieces and the user playing the 
         # black pieces are recorded.
@@ -31,8 +39,8 @@ def schema(dbpath = DBPATH):
         sql = """CREATE TABLE moves (
             pk INTEGER PRIMARY KEY AUTOINCREMENT,
             moveNum INTEGER,
-            white VARCHAR(6),
-            black VARCHAR(6),
+            white VARCHAR(8),
+            black VARCHAR(8),
             match_pk INTEGER,
             FOREIGN KEY (match_pk) REFERENCES match(pk)
         );"""
